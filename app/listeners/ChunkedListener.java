@@ -3,7 +3,7 @@ package listeners;
 import models.Tweet;
 import play.libs.F;
 import play.mvc.Results;
-
+import controllers.Util;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +26,12 @@ public class ChunkedListener {
     }
 
     public static void notifyAll(Tweet message){
-        for (Results.Chunks.Out<String> out : connections) {
-            try {
-                out.write(message.toJson());
-            }catch(Exception ex){
+        if (Util.filter.apply(message)) {
+            for (Results.Chunks.Out<String> out : connections) {
+                try {
+                    out.write(message.toJson());
+                } catch (Exception ex) {
+                }
             }
         }
     }

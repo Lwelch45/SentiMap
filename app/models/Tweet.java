@@ -10,6 +10,7 @@ import play.db.ebean.Model;
 import javax.persistence.*;
 
 import play.libs.Json;
+import twitter4j.GeoLocation;
 import twitter4j.Status;
 
 import java.util.TreeMap;
@@ -33,7 +34,7 @@ public class Tweet extends Model{
     String lang;
 
     @OneToMany(mappedBy = "location")
- //   Location location;
+    public Location location;
 
     DateTime received_date_time;
 
@@ -62,7 +63,13 @@ public class Tweet extends Model{
         }
         result.is_retweet = incoming_tweet.isRetweet();
         result.is_sensitive = incoming_tweet.isPossiblySensitive();
-       // result.location = new Location(incoming_tweet.getGeoLocation());
+        GeoLocation tmp =  incoming_tweet.getGeoLocation();
+        if (tmp == null){
+            result.location = null;
+        }else {
+            result.location = new Location(tmp);
+        }
+
         result.save();
         return result;
     }
@@ -73,6 +80,8 @@ public class Tweet extends Model{
         data.put("tweet_id",""+ tweet_id);
         data.put("text",text);
         data.put("source",source);
+        if (location != null)
+            data.put("location",location.toJson());
         ObjectMapper mapper = new ObjectMapper();
 
         return Json.stringify(mapper.valueToTree(data));

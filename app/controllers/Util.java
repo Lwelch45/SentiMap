@@ -1,5 +1,7 @@
 package controllers;
 
+import filters.Filter;
+import filters.LocationFilter;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -7,6 +9,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * Created by laurencewelch on 11/17/14.
  */
 public class Util {
+    public static final Filter filter = new LocationFilter();
 
     public static AccessToken loadAccessToken(int useId){
         String token = play.Configuration.root().getString("twitter.token");// load from a persistent store
