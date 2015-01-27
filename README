@@ -1,4 +1,1 @@
-This is your new Play application
-=================================
-
-This file will be packaged with your application, when using `activator dist`.
+This was initially supposed to be project that mapped tweets to location based on sentiment however the twitter sample dosent return enough location tweets for this to be feasible. However what it does do really well is demonstrate using simple filters on incoming streams of data, in this case tweets, and broadcasting data via both websockets and through "firehose." I hope someone finds it useful. Have fun!

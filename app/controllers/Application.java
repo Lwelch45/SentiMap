@@ -63,11 +63,13 @@ public class Application extends Controller {
             ts.addListener(listener);
             ts.sample();
             response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+            connected_to_twitter = true;
             return ok("connection started");
         }else{
             return ok("connection already opened");
         }
     }
+
 
     public static WebSocket<JsonNode> stream_socket(){
         return new WebSocket<JsonNode>(){
